@@ -2,6 +2,18 @@ import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'  // getRepository"  traer una tabla de la base de datos asociada al objeto
 import { Users } from './entities/Users'
 import { Exception } from './utils'
+import jwt from 'jsonwebtoken'
+
+export const createToken = async (req: Request, res: Response): Promise<Response>=>{
+    if(!req.body.email) throw new Exception("Please espefify an email on your request body", 400)
+    if(!req.body.password) throw new Exception ("Please nspecify an password on your request body", 400)
+    const userRepo = await getRepository(Users)
+    const user = await userRepo.findOne({where:{email:req.body.email, password:req.body.password}})
+
+    if(!user) throw new Exception ("invalid email or password", 401)
+    const token = jwt.sign({user}, process.env.JWT_KEY as string);
+    return res.json({user, token});
+}
 
 export const createUser = async (req: Request, res:Response): Promise<Response> =>{
 
