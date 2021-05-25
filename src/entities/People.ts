@@ -1,25 +1,42 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToMany, JoinColumn } from "typeorm";
-
+import {Entity,PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne} from "typeorm";
+import { Planets } from "./Planets";
 
 @Entity()
-export class infoPe extends BaseEntity {
+export class People extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    @Column()
-    Nombre: string
-    @Column()
-    Altura: number
-    @Column()
-    Peso: number
-    @Column()
-    ColordePelo: string
-    @Column()
-    ColordePiel: string
-    @Column()
-    ColordeOjos: string
-    @Column()
-    AñodeNacimiento: number
+    id: number
 
+    @Column()
+    name: string
 
+    @Column()
+    height: number
 
+    @Column()
+    mass: number
+
+    @Column()
+    hairColor: string
+
+    @Column()
+    skinColor: string
+
+    @Column()
+    eyeColor: string
+
+    @Column()
+    birthYear: string
+
+    @Column()
+    gender: string
+
+    @Column()
+    homeworld: string
+
+    @Column()
+    imgUrl: string
+
+    @ManyToOne(() => Planets, planets => planets.peoples)
+    planet: Planets;
 }

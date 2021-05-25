@@ -11,26 +11,36 @@
  * 
  */
 
-import { Router } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { safe } from './utils';
 import * as actions from './actions';
 import jwt from 'jsonwebtoken'
-import {createPeople, createPlanets, updatePeople, updatePlates} from '/actions'
-import { StringDecoder } from 'string_decoder';
+import { createPeople, createPlanets, updatePeople, updatePlanets, deleteUsers } from './actions';
 
 // declare a new router to include all the endpoints
 const router = Router();
 
+//middleware/token
+const verifyToken= (req: Request,res:Response, next:NextFunction) =>{
+    //headers con el token
+     const token = req.header('Authorization');
+    if(!token) return res.status(400).json('ACCESS DENIED');
 
-const verifyToken = (req: Request, res:Response, next:NextFunction)=>{
-    const token = req.headers('Autorization');
-    if(!token) return res.status(400).json('Access Denied');
-    const decoded = jwt.verify(token as string, process.env.JWT_KEY as string);
+    const decoded = jwt.verify(token as string, process.env.JWT_KEY as string)
     req.user = decoded;
+    console.log(decoded);
+    
+    next()
 }
 
 
-
-router.get('/user', safe(actions.getUsers));
+router.get('/users',verifyToken, safe(actions.getUsers));
+router.post('/people', verifyToken,  safe(createPeople));
+router.put('/people/:id', verifyToken, safe(updatePeople));
+router.delete('/users/:id', safe(deleteUsers));
+router.post('/planets', verifyToken, safe(createPlanets));
+router.put('/planets/:id', verifyToken, safe(updatePlanets));
 
 export default router;
+
+
