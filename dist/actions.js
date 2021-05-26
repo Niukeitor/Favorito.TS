@@ -310,7 +310,7 @@ var addFavPlanets = function (req, res) { return __awaiter(void 0, void 0, void 
             case 0:
                 planetsRepo = typeorm_1.getRepository(Planets_1.Planets);
                 userRepo = typeorm_1.getRepository(User_1.User);
-                return [4 /*yield*/, userRepo.findOne(req.params.userid, { relations: ["planet"] })];
+                return [4 /*yield*/, userRepo.findOne(req.params.userid, { relations: ["planets"] })];
             case 1:
                 user = _a.sent();
                 return [4 /*yield*/, planetsRepo.findOne(req.params.planetsid)];

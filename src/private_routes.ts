@@ -28,19 +28,17 @@ const verifyToken= (req: Request,res:Response, next:NextFunction) =>{
 
     const decoded = jwt.verify(token as string, process.env.JWT_KEY as string)
     req.user = decoded;
-    console.log(decoded);
     
     next()
 }
 
-
-router.get('/users',verifyToken, safe(actions.getUsers));
+router.get('/users', safe(actions.getUsers));
 router.post('/people', verifyToken,  safe(createPeople));
 router.put('/people/:id', verifyToken, safe(updatePeople));
 router.delete('/users/:id', safe(deleteUsers));
-router.post('/planets', verifyToken, safe(createPlanets));
 router.put('/planets/:id', verifyToken, safe(updatePlanets));
-router.post ('/favoritos/planets/:userid',verifyToken, safe(actions.addFavPlanets));
+router.post('/planets', verifyToken, safe(actions.createPlanets));
+router.post ('/favoritos/planets/:userid/:planetsid',verifyToken, safe(actions.addFavPlanets));
 export default router;
 
 

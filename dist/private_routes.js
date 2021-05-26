@@ -49,14 +49,13 @@ var verifyToken = function (req, res, next) {
         return res.status(400).json('ACCESS DENIED');
     var decoded = jsonwebtoken_1["default"].verify(token, process.env.JWT_KEY);
     req.user = decoded;
-    console.log(decoded);
     next();
 };
-router.get('/users', verifyToken, utils_1.safe(actions.getUsers));
+router.get('/users', utils_1.safe(actions.getUsers));
 router.post('/people', verifyToken, utils_1.safe(actions_1.createPeople));
 router.put('/people/:id', verifyToken, utils_1.safe(actions_1.updatePeople));
 router["delete"]('/users/:id', utils_1.safe(actions_1.deleteUsers));
-router.post('/planets', verifyToken, utils_1.safe(actions_1.createPlanets));
 router.put('/planets/:id', verifyToken, utils_1.safe(actions_1.updatePlanets));
-router.post('/favoritos/planets/:userid', verifyToken, utils_1.safe(actions.addFavPlanets));
+router.post('/planets', verifyToken, utils_1.safe(actions.createPlanets));
+router.post('/favoritos/planets/:userid/:planetsid', verifyToken, utils_1.safe(actions.addFavPlanets));
 exports["default"] = router;
