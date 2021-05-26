@@ -24,36 +24,61 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 exports.__esModule = true;
-exports.Users = void 0;
+exports.Planets = void 0;
 var typeorm_1 = require("typeorm");
-var Users = /** @class */ (function (_super) {
-    __extends(Users, _super);
-    function Users() {
+var People_1 = require("./People");
+var Planets = /** @class */ (function (_super) {
+    __extends(Planets, _super);
+    function Planets() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
-    ], Users.prototype, "id");
+    ], Planets.prototype, "id");
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Users.prototype, "first_name");
+    ], Planets.prototype, "name");
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", Number)
+    ], Planets.prototype, "diameter");
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", Number)
+    ], Planets.prototype, "rotationPeriod");
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Users.prototype, "last_name");
+    ], Planets.prototype, "gravity");
     __decorate([
-        typeorm_1.Column({ unique: true }),
-        __metadata("design:type", String)
-    ], Users.prototype, "email");
+        typeorm_1.Column(),
+        __metadata("design:type", Number)
+    ], Planets.prototype, "population");
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Users.prototype, "password");
-    Users = __decorate([
+    ], Planets.prototype, "climate");
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], Planets.prototype, "terrain");
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", Number)
+    ], Planets.prototype, "surfaceWater");
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], Planets.prototype, "imgUrl");
+    __decorate([
+        typeorm_1.OneToMany(function () { return People_1.People; }, function (people) { return people.planet; }),
+        __metadata("design:type", Array)
+    ], Planets.prototype, "peoples");
+    Planets = __decorate([
         typeorm_1.Entity()
-    ], Users);
-    return Users;
+    ], Planets);
+    return Planets;
 }(typeorm_1.BaseEntity));
-exports.Users = Users;
+exports.Planets = Planets;

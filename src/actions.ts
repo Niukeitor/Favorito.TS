@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'  // getRepository"  traer una tabla de la base de datos asociada al objeto
-import { User } from './entities/Users'
+import { User } from './entities/User'
 import { Exception } from './utils'
 import { People } from './entities/People'
 import { Planets } from './entities/Planets'
@@ -131,13 +131,25 @@ export const login = async (req: Request, res: Response): Promise<Response> =>{
 
 	const userRepo = await getRepository(User)
 
-	// We need to validate that a user with this email and password exists in the DB
 	const user = await userRepo.findOne({ where: { email: req.body.email, password: req.body.password }})
 	if(!user) throw new Exception("Invalid email or password", 401)
 
-	// this is the most important line in this function, it create a JWT token
+	
 	const token = jwt.sign({ user }, process.env.JWT_KEY as string, { expiresIn: 60 * 60 });
 	
-	// return the user and the recently created token to the client
+	
 	return res.json({ user, token });
+}
+
+export const addFavPlanets = async (req: Request, res: Response): Promise<Response>=>{
+const planetsRepo = getRepository(Planets)
+const userRepo = getRepository(User)
+const user = await userRepo.findOne(req.params.userid, {relations:["planet"]})
+const planets = await planetsRepo.findOne(req.params.planetsid)
+if (user && planets){
+    user.planets = [...user.planets,planets]
+    const results = await userRepo.save(user)
+    return res.json(results)
+}
+return res.json("Fatal Error")
 }

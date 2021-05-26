@@ -40,7 +40,7 @@ router.put('/people/:id', verifyToken, safe(updatePeople));
 router.delete('/users/:id', safe(deleteUsers));
 router.post('/planets', verifyToken, safe(createPlanets));
 router.put('/planets/:id', verifyToken, safe(updatePlanets));
-
+router.post ('/favoritos/planets/:userid',verifyToken, safe(actions.addFavPlanets));
 export default router;
 
 
